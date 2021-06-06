@@ -5,51 +5,23 @@ package net.ducko.geesemodpack;
 
 import java.io.IOException;
 
+import javax.swing.JFrame;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class App {
 	
-	private static JSONObject json;
 	private static TaskList tasks;
 	//private final static String defaultPath = System.getenv("APPDATA") + "\\.minecraft\\";
 	private final static String defaultPath = "C:\\Users\\joemc\\Desktop\\.minecraft\\";
 	
-	public static String getGreeting() {
-		return "hello";
-	}
-	
     public static void main(String[] args) {
-    	tasks = new TaskList();
-        try {
-			if (loadJSON()) {
-				Task forgeTask = new ForgeDownloadTask("forge-dl", 10, json.getString("forge-version"));
-				tasks.register(forgeTask);
-				Task optifineTask = new OptifineDownloadTask("optifine-dl", 1, json.getString("optifine-version"));
-				tasks.register(optifineTask);
-				JSONArray mods = json.getJSONArray("mods");
-				for (int i=0; i<mods.length(); i++) {
-					JSONObject mod = mods.getJSONObject(i);
-					Task jarTask = new JarDownloadTask("jar-dl", 1, mod.getInt("mod-id"), mod.getInt("file-id"), mod.getString("filename"));
-					tasks.register(jarTask);
-				}
-				Task moveTask = new MoveFilesTask(defaultPath);
-				tasks.register(moveTask);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-        
-        tasks.execute();
-        
+    	System.out.println("hello");
+    	Display display = new Display();
+    	display.promptWindow(defaultPath);
     }
     
-    private static boolean loadJSON() throws IOException, JSONException {
-    	
-    	json = JsonReader.readJsonFromUrl("http://localhost:3000/geese_modpack/mod_list.json");
-    	return json != null;
-    }
+    
 }

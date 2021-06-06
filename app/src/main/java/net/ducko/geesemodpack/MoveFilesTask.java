@@ -13,7 +13,8 @@ public class MoveFilesTask extends Task {
 	private String minecraftPath;
 	private String localPath;
 	
-	public MoveFilesTask(String path) {
+	public MoveFilesTask(String prefix, String path) {
+		this.prefix = prefix;
 		minecraftPath = path;
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		URL url = loader.getResource("files");
@@ -22,10 +23,9 @@ public class MoveFilesTask extends Task {
 	}
 	
 	@Override
-	public void execute() {
+	public int execute() {
 		
 		
-		System.out.println(minecraftPath);
 		File localDir = new File(localPath);
 		File minecraftDir = new File(minecraftPath);
 		for (File f : localDir.listFiles(new FileFilter() {
@@ -37,7 +37,6 @@ public class MoveFilesTask extends Task {
 			
 		})) {
 			String path = minecraftPath + f.getName();
-			System.out.println(path + ": " + deleteDirectory(new File(path)));
 		}
 		
 		moveFiles(localDir, minecraftDir);
@@ -50,17 +49,8 @@ public class MoveFilesTask extends Task {
 			}
 			
 		})[0];
-		try {
-			Process proc = Runtime.getRuntime().exec("javaw -jar "+forge.getAbsolutePath());
-			System.out.println(proc.waitFor());
-			proc.destroy();
-			System.exit(0);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (InterruptedException e) {
-
-			e.printStackTrace();
-		}
+		
+		return weight;
 	}
 	
 	private boolean deleteDirectory(File directory) {
@@ -100,6 +90,11 @@ public class MoveFilesTask extends Task {
 			}	
 		}
 		return true;
+	}
+
+	@Override
+	public String getName() {
+		return prefix;
 	}
 	
 }

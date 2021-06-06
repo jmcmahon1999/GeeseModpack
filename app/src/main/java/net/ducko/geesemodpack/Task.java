@@ -1,11 +1,11 @@
 package net.ducko.geesemodpack;
 
 public abstract class Task {
-	public String type;
-	public String name;
+	public String prefix;
 	public int weight;
 	public String filename;
 	
-	public abstract void execute();
+	public abstract int execute();
 	
+	public abstract String getName();
 }

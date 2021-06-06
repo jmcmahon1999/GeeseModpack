@@ -10,15 +10,20 @@ public class TaskList extends ArrayList<Task> {
 		count=0;
 	}
 	
-	public void execute() {
+	/*public void execute() {
 		for (Task t : this) {
 			t.execute();
 		}
-	}
+	}*/
 	
 	public void register(Task t) {
 		count += t.weight;
 		this.add(t);
+	}
+	
+	@Override
+	public int size() {
+		return count;
 	}
 	
 }

@@ -12,6 +12,9 @@ plugins {
 }
 
 apply plugin: "eclipse"
+apply plugin: "java"
+
+version = '1.7'
 
 repositories {
     // Use JCenter for resolving dependencies.
@@ -31,11 +34,23 @@ dependencies {
     
     implementation "com.github.TheRandomLabs:CurseAPI:master-SNAPSHOT"
     implementation "com.github.TheRandomLabs:CurseAPI-Minecraft:master-SNAPSHOT"
-    implementation group: 'org.json', name: 'json', version: '20090211'
+    implementation group: 'org.json', name: 'json', version: '20210307'
     implementation group: 'org.asynchttpclient', name: 'async-http-client', version: '2.2.0'
+    
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
 }
 
 application {
     // Define the main class for the application.
     mainClass = 'net.ducko.geesemodpack.App'
+}
+jar {
+    manifest {
+        attributes "Main-Class": 'net.ducko.geesemodpack.App'
+    }
+    baseName 'geese-modpack-installer'
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

@@ -19,30 +19,25 @@ import java.nio.file.Paths;
 
 public class JarDownloadTask extends Task {
 
-	private String name;
-	private String type;
-	private int weight;
-	private JSONObject json;
 	private int modID;
 	private int fileID;
 	private String filename;
 	private String localPath;
 	
-	public JarDownloadTask(String type, int weight, int modID, int fileID, String filename) {
-		this.type = type;
+	public JarDownloadTask(String prefix, int weight, int modID, int fileID, String filename) {
+		this.prefix = prefix;
 		this.weight = weight;
 		this.modID = modID;
 		this.fileID = fileID;
 		this.filename = filename;
 		CurseProject mod = getInfo();
-		this.name = mod.name();
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 		URL url = loader.getResource("files");
 		localPath = url.getPath();
 	}
 	
 	@Override
-	public void execute() {
+	public int execute() {
 		try {
 			Optional<CurseFile> file = CurseAPI.file(modID, fileID);
 			if (file.isPresent()) {
@@ -50,11 +45,12 @@ public class JarDownloadTask extends Task {
 				File f = new File(localPath + "/mods");
 				Path path = Paths.get(f.getAbsolutePath());
 				mod.downloadToDirectory(path);
-				System.out.println("Done");
 			}
 		} catch (CurseException e) {
 			e.printStackTrace();
 		}
+		
+		return weight;
 	}
 	
 	private CurseProject getInfo() {
@@ -68,6 +64,11 @@ public class JarDownloadTask extends Task {
 			e.printStackTrace();
 		} 
 		return null;
+	}
+
+	@Override
+	public String getName() {
+		return prefix + filename;
 	}
 
 }

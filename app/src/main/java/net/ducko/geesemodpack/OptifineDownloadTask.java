@@ -12,9 +12,8 @@ public class OptifineDownloadTask extends Task {
 	private String optifineSuffix = "&x=6cd670eb3ac9c8f859170f159807d566";
 	private String localPath;
 
-	public OptifineDownloadTask(String type, int weight, String version) {
-		this.name = "Optifine";
-		this.type = type;
+	public OptifineDownloadTask(String prefix, int weight, String version) {
+		this.prefix = prefix;
 		this.weight = weight;
 		this.filename = "Optifine-" + version + ".jar";
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
@@ -23,41 +22,10 @@ public class OptifineDownloadTask extends Task {
 	}
 	
 	@Override
-	public void execute() {
+	public int execute() {
 		
 		final String url = optifineURL + filename + optifineSuffix;
     	final String filepath = localPath+"/mods/"+filename;
-		
-		/*AsyncHttpClient client = Dsl.asyncHttpClient();
-		try {
-			FileOutputStream stream = new FileOutputStream(filepath);
-			System.out.println("Downloading Optifine");
-			client.prepareGet(url).execute(new AsyncCompletionHandler<FileOutputStream>() {
-				
-				@Override
-			    public State onStatusReceived(HttpResponseStatus responseStatus)
-			      throws Exception {
-			        return null;
-			    }
-
-
-			    @Override
-			    public State onBodyPartReceived(HttpResponseBodyPart bodyPart) 
-			      throws Exception {
-			        stream.getChannel().write(bodyPart.getBodyByteBuffer());
-			        return State.CONTINUE;
-			    }
-
-			    @Override
-			    public FileOutputStream onCompleted(Response response) 
-			      throws Exception {
-			    	System.out.println("Optifine Downloaded");
-			        return stream;
-			    }
-			});
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}*/
     	
     	try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());
 				  FileOutputStream fileOutputStream = new FileOutputStream(filepath)) {
@@ -69,7 +37,14 @@ public class OptifineDownloadTask extends Task {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    	
+    	return weight;
 
+	}
+
+	@Override
+	public String getName() {
+		return prefix + filename;
 	}
 
 }
