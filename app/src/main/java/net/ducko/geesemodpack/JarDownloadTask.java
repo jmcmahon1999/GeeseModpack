@@ -22,18 +22,15 @@ public class JarDownloadTask extends Task {
 	private int modID;
 	private int fileID;
 	private String filename;
-	private String localPath;
+	private String path;
 	
-	public JarDownloadTask(String prefix, int weight, int modID, int fileID, String filename) {
+	public JarDownloadTask(String prefix, int weight, int modID, int fileID, String filename, String path) {
 		this.prefix = prefix;
 		this.weight = weight;
 		this.modID = modID;
 		this.fileID = fileID;
 		this.filename = filename;
-		CurseProject mod = getInfo();
-		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		URL url = loader.getResource("files");
-		localPath = url.getPath();
+		this.path = path;
 	}
 	
 	@Override
@@ -42,7 +39,7 @@ public class JarDownloadTask extends Task {
 			Optional<CurseFile> file = CurseAPI.file(modID, fileID);
 			if (file.isPresent()) {
 				CurseFile mod = file.get();
-				File f = new File(localPath + "/mods");
+				File f = new File(path + "/mods");
 				Path path = Paths.get(f.getAbsolutePath());
 				mod.downloadToDirectory(path);
 			}

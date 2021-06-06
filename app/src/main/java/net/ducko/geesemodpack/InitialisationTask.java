@@ -15,6 +15,8 @@ public class InitialisationTask extends Task {
 	public int execute() {
 		File minecraftDir = new File(path);
 		if (minecraftDir.exists()) {
+			File modDir = new File(path+"\\mods");
+			modDir.mkdir();
 			return weight;
 		} else {
 			return -1;

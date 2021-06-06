@@ -3,24 +3,16 @@
  */
 package net.ducko.geesemodpack;
 
-import java.io.IOException;
-
-import javax.swing.JFrame;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 public class App {
 	
 	private static TaskList tasks;
 	//private final static String defaultPath = System.getenv("APPDATA") + "\\.minecraft\\";
-	private final static String defaultPath = "C:\\Users\\joemc\\Desktop\\.minecraft\\";
+	//private final static String DEFAULT_MAC_PATH = "~\\Library\\Application Support\\.minecraft\\";
+	private final static String DEFAULT_WINDOWS_PATH = "C:\\Users\\joemc\\Desktop\\.minecraft\\";
 	
     public static void main(String[] args) {
-    	System.out.println("hello");
     	Display display = new Display();
-    	display.promptWindow(defaultPath);
+    	display.promptWindow(DEFAULT_WINDOWS_PATH);
     }
     
     

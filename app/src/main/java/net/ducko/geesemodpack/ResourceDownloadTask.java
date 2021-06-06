@@ -4,31 +4,23 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 
-public class ForgeDownloadTask extends Task {
-	
-	private final String forgeURL = "https://maven.minecraftforge.net/net/minecraftforge/forge/";
-	private String version;
-	private String filepath;
+public class ResourceDownloadTask extends Task {
 
-	public ForgeDownloadTask(String prefix, int weight, String version, String path) {
+	private String filepath;
+	private final String url = "http://www.ducko.net/geese_modpack/resources.zip";
+	private final String filename = "resources.zip";
+	
+	public ResourceDownloadTask(String prefix, int weight, String path) {
 		this.prefix = prefix;
 		this.weight = weight;
-		this.version = version;
-		this.filename = "forge-" + version + "-installer.jar";
 		this.filepath = path;
-		/*ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		URL url = loader.getResource("files");
-		String localPath = url.getPath();
-		this.filepath =  localPath + "/";*/
 	}
 	
 	@Override
 	public int execute() {
 		
-		final String url = forgeURL + version + "/" + filename;
 		File file = new File(filepath, filename);
 		
 		try (BufferedInputStream in = new BufferedInputStream(new URL(url).openStream());

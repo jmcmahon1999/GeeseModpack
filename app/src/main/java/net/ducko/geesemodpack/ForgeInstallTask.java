@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 
-public class InstallForgeTask extends Task {
+public class ForgeInstallTask extends Task {
 
 	private String path;
 	
-	public InstallForgeTask(String prefix, String path, int weight) {
+	public ForgeInstallTask(String prefix, String path, int weight) {
 		this.prefix = prefix;
 		this.path = path;
 		this.weight = weight;
