@@ -3,16 +3,47 @@
  */
 package net.ducko.geesemodpack;
 
+import java.io.File;
+import java.util.Arrays;
+
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+
+import org.apache.commons.lang3.SystemUtils;
+
+
 public class App {
 	
-	private static TaskList tasks;
-	//private final static String defaultPath = System.getenv("APPDATA") + "\\.minecraft\\";
-	//private final static String DEFAULT_MAC_PATH = "~\\Library\\Application Support\\.minecraft\\";
-	private final static String DEFAULT_WINDOWS_PATH = "C:\\Users\\joemc\\Desktop\\.minecraft\\";
+	private final static String DEFAULT_WINDOWS_PATH = 
+			System.getenv("APPDATA") + File.separator 
+			+ ".minecraft" + File.separator;
+	private final static String DEFAULT_MAC_PATH = 
+			System.getProperty("user.home") + File.separator 
+			+ "Library" + File.separator 
+			+ "Application Support" + File.separator 
+			+ "minecraft" + File.separator;
+	private final static String DEFAULT_TEST_PATH = 
+			"C:" + File.separator 
+			+ "Users" + File.separator 
+			+ "joemc" + File.separator 
+			+ "Desktop" + File.separator 
+			+ ".minecraft" + File.separator;
 	
     public static void main(String[] args) {
+    	try {
+			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
+				| UnsupportedLookAndFeelException e) {
+			e.printStackTrace();
+		}
     	Display display = new Display();
-    	display.promptWindow(DEFAULT_WINDOWS_PATH);
+    	if (Arrays.stream(args).anyMatch(s -> s.toLowerCase() == "-t")) {
+    		display.promptWindow(DEFAULT_TEST_PATH);
+    	} else if (SystemUtils.IS_OS_WINDOWS) {
+    		display.promptWindow(DEFAULT_WINDOWS_PATH);
+    	} else if (SystemUtils.IS_OS_MAC) {
+    		display.promptWindow(DEFAULT_MAC_PATH);
+    	}
     }
     
     

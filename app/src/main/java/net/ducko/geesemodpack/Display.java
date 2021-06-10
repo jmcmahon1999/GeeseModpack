@@ -9,34 +9,35 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.SwingConstants;
-import javax.swing.SwingWorker;
 
 public class Display extends JFrame {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JProgressBar progressBar;
 	JPanel p;
 	JLabel contentLabel;
 	JLabel selectLabel;
+	JLabel hyperlink;
 	JButton fileLabel;
 	JButton fileButton;
 	JLabel progressLabel;
 	JButton contentButton;
 	JButton submit;
-	SwingWorker worker;
 	
 	public Display() {
 		super("GeeseModpack");
@@ -57,11 +58,6 @@ public class Display extends JFrame {
 	    int x = (int) ((dimension.getWidth() - getWidth()) / 2);
 	    int y = (int) ((dimension.getHeight() - getHeight()) / 2);
 		setLocation(x, y);
-		ClassLoader loader = Thread.currentThread().getContextClassLoader();
-		URL url = loader.getResource("icon.png");
-		String path = url.getPath();
-		ImageIcon img = new ImageIcon(path);
-		setIconImage(img.getImage());
 	}
 	
 	public void promptWindow(String defaultPath) {
@@ -91,6 +87,7 @@ public class Display extends JFrame {
 		fileButton = new JButton("Browse");
 		fileButton.setMargin(new Insets(0,0,0,0));
 		fileButton.setBounds(210, 80, 70, 20);
+		fileButton.addActionListener(new FileAction());
 		
 		submit = new JButton("Install");
 		submit.setBounds(110, 110, 70, 20);
@@ -116,13 +113,15 @@ public class Display extends JFrame {
 		
 		contentButton = new JButton();
 		contentButton.setText("<HTML>Visit <FONT color=\"#000099\"><U>ducko.net</U></FONT>"
-	        + " to see the mod authors and support them.</HTML>");
+				+ " for links to support the mod authors." 
+				+ "<br>Mac users will be prompted to manually install Forge.</HTML>");
 		contentButton.setBorderPainted(false);
 		contentButton.setOpaque(false);
 		contentButton.setContentAreaFilled(false);
 		contentButton.setBounds(10, 10, 262, 70);
 		contentButton.setFocusPainted(false);
-		contentButton.addActionListener(new OpenUrlAction("http://localhost:3000"));
+		contentButton.addActionListener(new OpenUrlAction("http://www.ducko.net/"));
+		
 	    
 		progressLabel.setBounds(10, 90, 262, 20);
 		p.add(progressLabel);
@@ -143,6 +142,7 @@ public class Display extends JFrame {
 		String url;
 		
 		public OpenUrlAction(String url) {
+			this.url = url;
 		}
 		
 		@Override
@@ -171,6 +171,22 @@ public class Display extends JFrame {
 			String minecraftPath = fileLabel.getText();
 			executeWindow();
 			startWorker(minecraftPath);
+		}
+	}
+	
+	class FileAction implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			JFileChooser fileChooser = new JFileChooser();
+			fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+			fileChooser.setFileHidingEnabled(false);
+			int returnVal = fileChooser.showOpenDialog(Display.this);
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
+				File file = fileChooser.getSelectedFile();
+				String path = file.getPath();
+				fileLabel.setText(path);
+			}
 		}
 	}
 	

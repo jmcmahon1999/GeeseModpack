@@ -1,10 +1,6 @@
 package net.ducko.geesemodpack;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
@@ -21,8 +17,7 @@ public class ExtractTask extends Task {
 	
 	@Override
 	public int execute() {
-		
-		File dest = new File(path);
+
 		File resources = new File(path+"resources.zip");
 		
 		ZipFile zip = new ZipFile(resources);
