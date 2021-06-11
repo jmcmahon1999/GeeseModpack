@@ -35,6 +35,7 @@ public class TaskWorker extends SwingWorker<Object, Pair> {
 					Task forgeTask = new ForgeDownloadTask("Downloading: ", 10, json.getString("forge_version"), path);
 					tasks.register(forgeTask);
 				}
+				/*
 				JSONArray mods = json.getJSONArray("mods");
 				for (int i=0; i<mods.length(); i++) {
 					JSONObject mod = mods.getJSONObject(i);
@@ -45,6 +46,7 @@ public class TaskWorker extends SwingWorker<Object, Pair> {
 				tasks.register(resourceTask);
 				Task extractTask = new ExtractTask("Extracting", 5, path);
 				tasks.register(extractTask);
+				*/
 				display.progressBar.setMaximum(tasks.size());
 				for (Task t : tasks) {
 					String s = t.getName();

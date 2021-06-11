@@ -11,6 +11,7 @@ import org.apache.commons.lang3.SystemUtils;
 public class ForgeInstallTask extends Task {
 
 	private String path;
+	Process proc;
 	
 	public ForgeInstallTask(String prefix, String path, int weight, String version) {
 		this.prefix = prefix;
@@ -37,9 +38,13 @@ public class ForgeInstallTask extends Task {
 			} else {
 				String forgePath = path + filename;
 				File forge = new File(forgePath);
-				Process proc = Runtime.getRuntime().exec("java -jar "+forge.getAbsolutePath());
-				System.out.println(proc.waitFor());
-				proc.destroy();
+				String cmd = "java -jar "+forge.getAbsolutePath();
+				proc = Runtime.getRuntime().exec(cmd);
+				ReadStream s1 = new ReadStream("stdin", proc.getInputStream());
+				ReadStream s2 = new ReadStream("stderr", proc.getErrorStream());
+				s1.start();
+				s2.start();
+				proc.waitFor();
 				forge.deleteOnExit();
 			}
 		} catch (IOException e) {
@@ -47,6 +52,10 @@ public class ForgeInstallTask extends Task {
 		} catch (InterruptedException e) {
 
 			e.printStackTrace();
+		} finally {
+			if(proc != null) {
+				proc.destroy();
+			}
 		}
 		
 		return weight;
