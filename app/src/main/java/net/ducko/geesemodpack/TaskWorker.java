@@ -84,7 +84,7 @@ public class TaskWorker extends SwingWorker<Object, Pair> {
 	}
 	
 	private boolean loadJSON() throws IOException, JSONException {
-    	json = JsonReader.readJsonFromUrl("http://www.ducko.net/geese/manifest.json");
+    	json = JsonReader.readJsonFromUrl("https://www.ducko.net/geese/manifest.json");
     	return json != null;
     }
 	
