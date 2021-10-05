@@ -42,10 +42,10 @@ public class TaskWorker extends SwingWorker<Object, Pair> {
 					Task jarTask = new JarDownloadTask("Downloading: ", 5, mod.getInt("mod_id"), mod.getInt("file_id"), mod.getString("filename"), path);
 					tasks.register(jarTask);
 				}
-				Task resourceTask = new ResourceDownloadTask("Downloading: ", 5, path);
+				/*Task resourceTask = new ResourceDownloadTask("Downloading: ", 5, path);
 				tasks.register(resourceTask);
 				Task extractTask = new ExtractTask("Extracting", 5, path);
-				tasks.register(extractTask);
+				tasks.register(extractTask);*/
 				
 				display.progressBar.setMaximum(tasks.size());
 				for (Task t : tasks) {
@@ -86,7 +86,7 @@ public class TaskWorker extends SwingWorker<Object, Pair> {
 	}
 	
 	private boolean loadJSON() throws IOException, JSONException {
-    	json = JsonReader.readJsonFromUrl("https://www.ducko.net/geese/manifest.json");
+    	json = JsonReader.readJsonFromUrl(App.DUCKO_URL+"manifest.json");
     	return json != null;
     }
 	

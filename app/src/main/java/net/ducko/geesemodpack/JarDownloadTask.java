@@ -33,7 +33,10 @@ public class JarDownloadTask extends Task {
 			if (file.isPresent()) {
 				CurseFile mod = file.get();
 				Path path = Paths.get(f.getAbsolutePath());
-				mod.downloadToDirectory(path);
+				File modFile = new File(path.toString() +"/"+ filename);
+				if (!modFile.exists()) {
+					mod.downloadToDirectory(path);
+				}
 			}
 		} catch (CurseException e) {
 			e.printStackTrace();

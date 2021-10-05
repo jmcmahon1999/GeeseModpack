@@ -9,7 +9,7 @@ import java.net.URL;
 public class ResourceDownloadTask extends Task {
 
 	private String filepath;
-	private final String url = "https://www.ducko.net/geese/resources.zip";
+	private final String url = App.DUCKO_URL + "resources.zip";
 	private final String filename = "resources.zip";
 	
 	public ResourceDownloadTask(String prefix, int weight, String path) {

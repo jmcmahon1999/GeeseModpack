@@ -11,6 +11,9 @@ import javax.swing.UnsupportedLookAndFeelException;
 
 import org.apache.commons.lang3.SystemUtils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class App {
 	
@@ -28,6 +31,8 @@ public class App {
 			+ "joemc" + File.separator 
 			+ "Desktop" + File.separator 
 			+ ".minecraft" + File.separator;
+	public final static String DUCKO_URL = "https://www.ducko.net/neo/";
+	public static Logger log = LoggerFactory.getLogger(App.class);
 	
     public static void main(String[] args) {
     	try {

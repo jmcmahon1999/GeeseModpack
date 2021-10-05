@@ -26,7 +26,7 @@ public class ForgeInstallTask extends Task {
 		try {
 			if (SystemUtils.IS_OS_MAC) {
 				try {
-					URI uri = new URI("https://files.minecraftforge.net/net/minecraftforge/forge/");
+					URI uri = new URI("https://files.minecraftforge.net/net/minecraftforge/forge/index_1.12.2.html");
 					if (Desktop.isDesktopSupported()) {
 						try {
 							Desktop.getDesktop().browse(uri);
